@@ -87,6 +87,7 @@ export const CalendarModal = () => {
                             value={dateStart}
                             onChange={handleStartDateChange}
                             format="MMMM dd yyyy, HH:mm "
+                            className = 'w'
                         />
                     </div>
                     <div className="form-group">
@@ -99,6 +100,7 @@ export const CalendarModal = () => {
                             minDate={dateStart}
                             minDateMessage="End Date should be at least start Date "
                             format="MMMM dd yyyy, HH:mm "
+                            className = 'w'
                         />
                     </div>
                     <hr />

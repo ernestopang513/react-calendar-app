@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import moment from 'moment';
 import { MuiPickersUtilsProvider, KeyboardDateTimePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import Swal from 'sweetalert2';
 const customStyles = {
     content : {
         top                   : '50%',
@@ -20,6 +21,7 @@ const clon = now.clone().add(1,'hours')
 export const CalendarModal = () => {
     const [dateStart, setDateStart] = useState(now.toDate());
     const [dateEnd, setDateEnd] = useState(clon.toDate());
+    const [titleValid, setTitleValid] = useState(true);
 
     const [formValues, setFormValues] = useState({
         title: 'Evento',
@@ -62,9 +64,14 @@ export const CalendarModal = () => {
         const momentEnd = moment(end);
         // console.log(formValues)
         if(momentStart.isSameOrAfter(momentEnd)){
-            console.log('Fecha dos debe ser mayor')
+            Swal.fire('Error', 'La checha fin debe de ser mayor a la fecha de inicio', 'error');
             return;
         }
+        if(title.trim().length < 2){
+            return setTitleValid(false);
+        }
+        setTitleValid(true);
+        closeModal();
     }
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -108,7 +115,7 @@ export const CalendarModal = () => {
                         <label>Titulo y notas</label>
                         <input
                             type="text"
-                            className={`form-control`}
+                            className={`form-control ${!titleValid && 'is-invalid'}`}
                             placeholder="Título del evento"
                             name="title"
                             value={title}

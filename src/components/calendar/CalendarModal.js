@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import moment from 'moment';
 import { MuiPickersUtilsProvider, KeyboardDateTimePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import Swal from 'sweetalert2';
+import { useDispatch, useSelector } from 'react-redux';
+import { uiCloseModal } from '../actions/ui';
+import { eventAddNew, eventClearActiveEvent, eventUpdated } from '../actions/events';
+import { getTime } from 'date-fns';
 const customStyles = {
     content : {
         top                   : '50%',
@@ -17,20 +21,38 @@ const customStyles = {
 Modal.setAppElement('#root');
 
 const now = moment().minute(0).second(0).add(1, 'hours');
-const clon = now.clone().add(1,'hours')
+const clon = now.clone().add(1,'hours');
+
+const initEvent = {
+    title: '',
+    notes: '',
+    start: now.toDate(),
+    end: clon.toDate()
+}
+
+
 export const CalendarModal = () => {
     const [dateStart, setDateStart] = useState(now.toDate());
     const [dateEnd, setDateEnd] = useState(clon.toDate());
     const [titleValid, setTitleValid] = useState(true);
+    const dispatch = useDispatch();
+    const {modalOpen} = useSelector(state => state.ui);
+    const {activeEvent} = useSelector(state => state.calendar);
 
-    const [formValues, setFormValues] = useState({
-        title: 'Evento',
-        notes: '',
-        start: now.toDate(),
-        end: clon.toDate()
-    });
+
+    const [formValues, setFormValues] = useState(initEvent);
 
     const {notes, title,start ,end} = formValues;
+
+    useEffect(() => {
+
+        if(activeEvent){
+            setFormValues(activeEvent);
+        }else{
+            setFormValues(initEvent);
+        }
+    }, [activeEvent, setFormValues])
+
 
     const handleInputChange = ({target}) =>{
         setFormValues({
@@ -41,6 +63,10 @@ export const CalendarModal = () => {
     
 
     const closeModal = () => {
+        dispatch(uiCloseModal());
+        dispatch(eventClearActiveEvent());
+        setFormValues(initEvent);
+
     }
 
     const handleStartDateChange = (e) => {
@@ -70,20 +96,36 @@ export const CalendarModal = () => {
         if(title.trim().length < 2){
             return setTitleValid(false);
         }
+
+
+        if(activeEvent){
+            dispatch(eventUpdated(formValues));
+        }else{
+            dispatch(eventAddNew({
+                ...formValues,
+                id: new Date().getTime(),
+                user: {
+                    _id: '543',
+                    name: 'Ernesto'
+                }
+            }));
+        }
+
+
         setTitleValid(true);
         closeModal();
     }
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Modal
-                isOpen={true}
+                isOpen={modalOpen}
                 onRequestClose={closeModal}
                 style={customStyles}
                 closeTimeoutMS={200}
                 className="modal"
                 overlayClassName="modal-fondo"
             >
-                <h1>Nuevo evento</h1>
+                <h1>{ (activeEvent) ? 'Editar Evento' : 'Nuevo Evento' }</h1>
                 <hr />
                 <form className="container" onSubmit={handleSubmit}>
                     <div className="form-group">

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    BrowserRouter as Router,
+    HashRouter as Router,
     Switch,
     Redirect
 } from "react-router-dom";
@@ -19,6 +19,9 @@ export const AppRouter = () => {
         dispatch(startChecking());
     }, [dispatch]);
     console.log(checking);
+    if(checking){
+        return (<h5>Espere...</h5>)
+    }
     
     return (
         <Router>

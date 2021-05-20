@@ -18,7 +18,6 @@ export const AppRouter = () => {
     useEffect(() => {
         dispatch(startChecking());
     }, [dispatch]);
-    console.log(checking);
     if(checking){
         return (<h5>Espere...</h5>)
     }

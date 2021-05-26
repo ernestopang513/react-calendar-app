@@ -595,13 +595,13 @@ exports[`Pruebas en AppRouter Debe de mostrar la ruta privada 1`] = `
               className="rbc-day-bg"
             />
             <div
+              className="rbc-day-bg"
+            />
+            <div
+              className="rbc-day-bg"
+            />
+            <div
               className="rbc-day-bg rbc-today"
-            />
-            <div
-              className="rbc-day-bg"
-            />
-            <div
-              className="rbc-day-bg"
             />
             <div
               className="rbc-day-bg"
@@ -644,7 +644,7 @@ exports[`Pruebas en AppRouter Debe de mostrar la ruta privada 1`] = `
                 </a>
               </div>
               <div
-                className="rbc-date-cell rbc-now rbc-current"
+                className="rbc-date-cell"
                 key="header_2"
                 role="cell"
               >
@@ -670,7 +670,7 @@ exports[`Pruebas en AppRouter Debe de mostrar la ruta privada 1`] = `
                 </a>
               </div>
               <div
-                className="rbc-date-cell"
+                className="rbc-date-cell rbc-now rbc-current"
                 key="header_4"
                 role="cell"
               >
@@ -1018,7 +1018,7 @@ exports[`Pruebas en AppRouter Debe de mostrar la ruta pública 1`] = `
               onChange={[Function]}
               placeholder="Correo"
               type="text"
-              value="ernesto@gmail.com"
+              value=""
             />
           </div>
           <div
@@ -1030,7 +1030,7 @@ exports[`Pruebas en AppRouter Debe de mostrar la ruta pública 1`] = `
               onChange={[Function]}
               placeholder="Contraseña"
               type="password"
-              value="123456"
+              value=""
             />
           </div>
           <div

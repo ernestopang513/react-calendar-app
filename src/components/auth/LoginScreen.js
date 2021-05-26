@@ -10,8 +10,8 @@ export const LoginScreen = () => {
     const dispatch = useDispatch();
 
     const [formLoginValues, handleLoginInputChange] = useForm({
-        lEmail: 'ernesto@gmail.com',
-        lPassword: '123456'
+        lEmail: '',
+        lPassword: ''
     });
     const [formRegisterValues, handleRegisterInputChange] = useForm({
         rEmail: 'jose@gmail.com',
@@ -31,11 +31,11 @@ export const LoginScreen = () => {
 
     const handleRegister= (e) => {
         e.preventDefault();
-        dispatch(startRegister(rEmail,rPassword1, rName));
-
+        
         if(rPassword1 !== rPassword2){
             return Swal.fire('Error', 'Las contraseñas debed de ser iguales', 'error');
         }
+        dispatch(startRegister(rEmail,rPassword1, rName));
     }
     return (
         <div className="container login-container">
